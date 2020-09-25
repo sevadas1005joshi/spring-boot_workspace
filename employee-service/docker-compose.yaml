@@ -2,20 +2,31 @@ version: "3"
 
 services:
   employee-service:
-    image: sevadasdocker/employee-service
+    image: "employee-service"
     networks:
       - my-network
     ports: 
-      - 8080:8086
+      - 8086:8086
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-database:3306/testdb
+      SPRING_DATASOURCE_USERNAME: "sa"
+      SPRING_DATASOURCE_PASSWORD: "password"
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
     depends_on:
-      - database
-  database:
-    image: mysql:5
+      - mysql-database
+  mysql-database:
+    image: "mysql:5"
     networks:
       - my-network
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "testdb"
+      MYSQL_USER: "sa"
+      MYSQL_PASSWORD: "password"
+    ports: 
+      - 3306:3306
       
 networks:
   my-network:

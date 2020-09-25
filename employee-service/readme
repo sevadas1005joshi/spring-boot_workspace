@@ -1,0 +1,25 @@
+step 1> create mysql container:
+	docker container run --name employee-mysql --network testnetwork -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=testdb -e MYSQL_USER=sa -e MYSQL_PASSWORD=password
+	 -d mysql:5
+step 2> 
+    docker exec -it 8cf8af359aad mysql -uroot -ppassword
+
+step 3> insert data in table
+	INSERT INTO employee (id, name, age, gender,serial_Id, date_of_birth, last_updated) VALUES
+	('EMP21', 'Raj', 38, 'F', 'AR12321', '1988-10-28', TIMESTAMP '2019-10-13 10:35:24.076'),
+	('EMP22', 'Nisha', 38, 'M', 'AR12322', '1987-09-11', TIMESTAMP '2019-10-13 10:35:24.076'),
+	('EMP23', 'Alia', 38, 'M', 'AR12323', '1990-08-14', TIMESTAMP '2019-10-13 10:35:24.076');
+
+	INSERT INTO address (id, city, state, pin,employee_id) VALUES
+	(101, 'BNG', 'KAR', 560037,'EMP22'),
+	(102, 'KWD', 'CHH', 491446,'EMP22'),
+	(103, 'PUN', 'MAH', 254776,'EMP22');
+
+step 4> run spring boot container
+	docker run -p 8086:8086 --name myapp --network testnetwork employee-service
+	
+both containers are using testnetwork which is created manually to create network run below 
+---> docker network create testnetwork
+
+
+
